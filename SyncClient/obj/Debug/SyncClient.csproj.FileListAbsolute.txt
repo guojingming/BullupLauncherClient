@@ -1,0 +1,6 @@
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\bin\Debug\SyncClient.exe.config
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\bin\Debug\SyncClient.exe
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\bin\Debug\SyncClient.pdb
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.exe
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.pdb
+E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.csprojResolveAssemblyReference.cache
