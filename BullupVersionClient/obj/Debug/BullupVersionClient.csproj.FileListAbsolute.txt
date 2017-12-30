@@ -1,0 +1,13 @@
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.exe.config
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.exe
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.pdb
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csprojResolveAssemblyReference.cache
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.Form1.resources
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.Properties.Resources.resources
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csproj.GenerateResource.Cache
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.exe
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.pdb
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\SyncClient.exe
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\SyncClient.pdb
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
+F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csproj.ResolveComReference.cache

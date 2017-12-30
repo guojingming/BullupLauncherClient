@@ -4,3 +4,8 @@ E:\Win32CSharpWorkSpace\SyncClient\SyncClient\bin\Debug\SyncClient.pdb
 E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.exe
 E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.pdb
 E:\Win32CSharpWorkSpace\SyncClient\SyncClient\obj\Debug\SyncClient.csprojResolveAssemblyReference.cache
+F:\Win32CSharpWorkSpace\BullupLauncherClient\SyncClient\bin\Debug\SyncClient.exe.config
+F:\Win32CSharpWorkSpace\BullupLauncherClient\SyncClient\obj\Debug\SyncClient.exe
+F:\Win32CSharpWorkSpace\BullupLauncherClient\SyncClient\obj\Debug\SyncClient.pdb
+F:\Win32CSharpWorkSpace\BullupLauncherClient\SyncClient\bin\Debug\SyncClient.exe
+F:\Win32CSharpWorkSpace\BullupLauncherClient\SyncClient\bin\Debug\SyncClient.pdb
