@@ -45,7 +45,7 @@ namespace BullupVersionClient {
                 }
             } else {
                 if (button1.Text == "开始安装/更新") {
-                    client = new TCPClient("127.0.0.1", 6001);
+                    client = new TCPClient("18.220.98.48", 6001);
                     //执行Start方法
                     client.Start(bullupPath);
                     button1.Enabled = false;
@@ -68,9 +68,9 @@ namespace BullupVersionClient {
                 shortcut = shell_class.CreateShortcut(savePath + @"/" + saveName + ".lnk") as IWshRuntimeLibrary.IWshShortcut;
                 shortcut.TargetPath = targetPath;
                 shortcut.Save();
-                MessageBox.Show("创建快捷方式成功！");
+                //MessageBox.Show("创建快捷方式成功！");
             } catch (Exception ex) {
-                MessageBox.Show("创建快捷方式失败！");
+                //MessageBox.Show("创建快捷方式失败！");
             }
         } 
 
