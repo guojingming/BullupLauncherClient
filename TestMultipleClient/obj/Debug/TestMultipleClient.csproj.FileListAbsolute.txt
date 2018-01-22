@@ -1,0 +1,8 @@
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\bin\Debug\TestMultipleClient.exe.config
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\bin\Debug\TestMultipleClient.exe
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\bin\Debug\TestMultipleClient.pdb
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\bin\Debug\BullupVersionClient.exe
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\bin\Debug\BullupVersionClient.pdb
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\obj\Debug\TestMultipleClient.csprojResolveAssemblyReference.cache
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\obj\Debug\TestMultipleClient.exe
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\TestMultipleClient\obj\Debug\TestMultipleClient.pdb

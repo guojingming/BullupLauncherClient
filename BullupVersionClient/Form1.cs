@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using TCPLib;
 
 namespace BullupVersionClient {
+
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
@@ -35,25 +36,25 @@ namespace BullupVersionClient {
         private TCPClient client;
 
         private void button1_Click(object sender, EventArgs e) {
-            if (bullupPath == "") {
-                FolderBrowserDialog folderDlg = new FolderBrowserDialog();
-                folderDlg.ShowDialog();
-                bullupPath = folderDlg.SelectedPath;
-                textBox1.Text = bullupPath;
-                if (bullupPath != "") {
-                    button1.Text = "开始安装/更新";
-                }
-            } else {
-                if (button1.Text == "开始安装/更新") {
-                    client = new TCPClient("18.220.98.48", 6001);
-                    //执行Start方法
-                    client.Start(bullupPath);
-                    button1.Enabled = false;
+            //if (bullupPath == "") {
+            //    FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+            //    folderDlg.ShowDialog();
+            //    bullupPath = folderDlg.SelectedPath;
+            //    textBox1.Text = bullupPath;
+            //    if (bullupPath != "") {
+            //        button1.Text = "开始安装/更新";
+            //    }
+            //} else {
+            //    if (button1.Text == "开始安装/更新") {
+            //        client = new TCPClient("18.220.98.48", 6001);
+            //        //执行Start方法
+            //        client.Start(bullupPath);
+            //        button1.Enabled = false;
 
-                    Thread th = new Thread(ThreadChild);
-                    th.Start();
-                }
-            }
+            //        Thread th = new Thread(ThreadChild);
+            //        th.Start();
+            //    }
+            //}
         }
 
 
@@ -128,6 +129,60 @@ namespace BullupVersionClient {
 
         private void Form1_Load(object sender, EventArgs e) {
             Control.CheckForIllegalCrossThreadCalls = false;
+            label4.SetBounds(1000,1000,70,20);
+            pictureBox1.BackgroundImage = Properties.Resources._2;
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e) {
+            if (bullupPath == "") {
+                FolderBrowserDialog folderDlg = new FolderBrowserDialog();
+                folderDlg.ShowDialog();
+                bullupPath = folderDlg.SelectedPath;
+                textBox1.Text = bullupPath;
+                if (bullupPath != "") {
+                    label4.Text = "下载";
+                    pictureBox1.BackgroundImage = Properties.Resources._1;
+                }
+            } else {
+                if (label4.Text == "下载") {
+                    //client = new TCPClient("52.15.124.26", 6001);
+                    //client = new TCPClient("127.0.0.1", 6001);
+                    client = new TCPClient("192.168.0.117", 6001);
+                    
+                    //执行Start方法
+                    client.Start(bullupPath);
+                    pictureBox1.Enabled = false;
+                   
+                    Thread th = new Thread(ThreadChild);
+                    th.Start();
+                }
+            }
+        }
+
+        private void pictureBox1_MouseEnter(object sender, EventArgs e) {
+            if ( label4.Text == "选择" ) {
+                pictureBox1.BackgroundImage = Properties.Resources._4;
+            } else if (label4.Text == "下载") {
+                pictureBox1.BackgroundImage = Properties.Resources._3;
+            }
+
+           
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e) {
+            if (label4.Text == "选择") {
+                pictureBox1.BackgroundImage = Properties.Resources._6;
+            } else if (label4.Text == "下载") {
+                pictureBox1.BackgroundImage = Properties.Resources._5;
+            }
+        }
+
+        private void pictureBox1_MouseLeave(object sender, EventArgs e) {
+            if (label4.Text == "选择") {
+                pictureBox1.BackgroundImage = Properties.Resources._2;
+            } else if (label4.Text == "下载") {
+                pictureBox1.BackgroundImage = Properties.Resources._1;
+            }
         }
     }
 }

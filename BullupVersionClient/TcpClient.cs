@@ -8,7 +8,7 @@ using System.IO;
 
 namespace TCPLib {
     public class TCPClient {
-        private byte[] result = new byte[1024];
+        
         private string ip;
         public string IP {
             get { return ip; }
@@ -52,45 +52,46 @@ namespace TCPLib {
                     mClientSocket.Connect(this.ipEndPoint);
                     this.isConnected = true;
                 } catch (Exception e) {
-                    Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
+                    //Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
                     this.isConnected = false;
                 }
                 Thread.Sleep(2000);
-                Console.WriteLine("正在尝试重新连接...");
+                //Console.WriteLine("正在尝试重新连接...");
             }
-            Console.WriteLine("连接服务器成功，现在可以和服务器进行会话了");
+            //Console.WriteLine("连接服务器成功，现在可以和服务器进行会话了");
             //var mReceiveThread = new Thread(this.ReceiveMessage);
             var mReceiveThread = new Thread(this.ReceiveFiles);
             mReceiveThread.Start();
         }
 
-        private void ReceiveMessage() {
-            //设置循环标志位
-            bool flag = true;
-            while (flag) {
-                try {
-                    //获取数据长度
-                    int receiveLength = this.mClientSocket.Receive(result);
-                    //获取服务器消息
-                    string serverMessage = Encoding.UTF8.GetString(result, 0, receiveLength);
-                    //输出服务器消息
-                    //Console.WriteLine("From server: " + serverMessage);
-                } catch (Exception e) {
-                    //停止消息接收
-                    flag = false;
-                    //断开服务器
-                    this.mClientSocket.Shutdown(SocketShutdown.Both);
-                    //关闭套接字
-                    this.mClientSocket.Close();
-                    //重新尝试连接服务器
-                    this.isConnected = false;
-                    ConnectToServer();
-                }
-            }
-        }
+        //private void ReceiveMessage() {
+        //    //设置循环标志位
+        //    bool flag = true;
+        //    while (flag) {
+        //        try {
+        //            //获取数据长度
+        //            int receiveLength = this.mClientSocket.Receive(result);
+        //            //获取服务器消息
+        //            string serverMessage = Encoding.UTF8.GetString(result, 0, receiveLength);
+        //            //输出服务器消息
+        //            //Console.WriteLine("From server: " + serverMessage);
+        //        } catch (Exception e) {
+        //            //停止消息接收
+        //            flag = false;
+        //            //断开服务器
+        //            this.mClientSocket.Shutdown(SocketShutdown.Both);
+        //            //关闭套接字
+        //            this.mClientSocket.Close();
+        //            //重新尝试连接服务器
+        //            this.isConnected = false;
+        //            ConnectToServer();
+        //        }
+        //    }
+        //}
 
         private void ReceiveFiles() {
             try {
+                byte[] result = new byte[1024];
                 //
                 String path = bullupPath;
                 //传安装路径
@@ -103,16 +104,14 @@ namespace TCPLib {
                     serverMessage = serverMessage.Substring(17);
                     int fileCount = Int32.Parse(serverMessage.Substring(0, serverMessage.IndexOf("#")));
                     int transedCount = 0;
-
                     maxCount = fileCount;
                     //
                     while (transedCount != fileCount) {
                         currentCount = transedCount;
                         //通知服务器开始传
-                        SendMessage(transedCount.ToString());
+                        //SendMessage(transedCount.ToString());
                         //接文件头  路径和大小
                         this.mClientSocket.Receive(result);
-
                         String fileSizeStr = null;
                         String filePathStr = null;
                         int fileSize = 0;
@@ -124,13 +123,14 @@ namespace TCPLib {
                         filePathStr = Encoding.UTF8.GetString(result);
                         filePathStr = filePathStr.Substring(filePathStr.IndexOf("FILEPATH#") + 9);
                         filePathStr = filePathStr.Substring(0, filePathStr.IndexOf("#"));
-
+//Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount + " / " + fileCount);
                         //通知服务器开始传文件数据
                         SendMessage("DATA_READY");
 
                         //准备文件存储区
                         byte[] file = new byte[fileSize];
-                        byte[] buffer = new byte[1024];
+                        int blockSize = 4 * 1024 * 1024;
+                        byte[] buffer = new byte[blockSize];
                         //开始传
                         int receievedSize = 0;
                         while (receievedSize != fileSize) {
@@ -147,7 +147,7 @@ namespace TCPLib {
                         SendMessage("DATA_OK");
                         transedCount++;
                     }
-                    Console.WriteLine("传输完成");
+                    Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " 传输完成");
                 } else if (serverMessage.IndexOf("UPDATEFILECOUNT#") == 0) {
 
                 }
@@ -186,6 +186,7 @@ namespace TCPLib {
         }
 
         public void SendMessage(string msg) {
+//Console.WriteLine(this.mClientSocket.LocalEndPoint.ToString() + " send: " + msg);
             if (msg == string.Empty || this.mClientSocket == null) {
                 return;
             }

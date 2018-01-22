@@ -5,7 +5,7 @@ VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BullupVersionClient", "BullupVersionClient\BullupVersionClient.csproj", "{6F252C5D-C88D-40DA-94DB-37CD0CEB076F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncClient", "SyncClient\SyncClient.csproj", "{F27ED52B-0ED8-4FD6-8FD0-8FD522C62C3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestMultipleClient", "TestMultipleClient\TestMultipleClient.csproj", "{A9E9AEF8-11F7-4CD6-AF0E-410EE00BFB57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{6F252C5D-C88D-40DA-94DB-37CD0CEB076F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F252C5D-C88D-40DA-94DB-37CD0CEB076F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F252C5D-C88D-40DA-94DB-37CD0CEB076F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F27ED52B-0ED8-4FD6-8FD0-8FD522C62C3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F27ED52B-0ED8-4FD6-8FD0-8FD522C62C3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F27ED52B-0ED8-4FD6-8FD0-8FD522C62C3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F27ED52B-0ED8-4FD6-8FD0-8FD522C62C3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E9AEF8-11F7-4CD6-AF0E-410EE00BFB57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E9AEF8-11F7-4CD6-AF0E-410EE00BFB57}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E9AEF8-11F7-4CD6-AF0E-410EE00BFB57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E9AEF8-11F7-4CD6-AF0E-410EE00BFB57}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

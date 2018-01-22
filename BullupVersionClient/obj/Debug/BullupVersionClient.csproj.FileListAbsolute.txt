@@ -19,6 +19,6 @@ E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.exe
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.pdb
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csprojResolveAssemblyReference.cache
-E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.Form1.resources
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.Properties.Resources.resources
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csproj.GenerateResource.Cache
+E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.Form1.resources
