@@ -9,7 +9,7 @@ using TCPLib;
 namespace TestMultipleClient {
     class Program {
         static void Main(string[] args) {
-            int length = 40;
+            int length = 10;
             String[] bullupPath = new String[length];
             for (int i = 0; i < length; i++) {
                 bullupPath[i] = "E:\\test" + i;

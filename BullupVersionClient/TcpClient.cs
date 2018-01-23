@@ -55,7 +55,7 @@ namespace TCPLib {
                     //Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
                     this.isConnected = false;
                 }
-                Thread.Sleep(2000);
+                Thread.Sleep(1000);
                 //Console.WriteLine("正在尝试重新连接...");
             }
             //Console.WriteLine("连接服务器成功，现在可以和服务器进行会话了");
