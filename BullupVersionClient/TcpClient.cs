@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.IO;
+using System.Collections;
 
 namespace TCPLib {
     public class TCPClient {
@@ -33,11 +34,52 @@ namespace TCPLib {
         }
 
         private String bullupPath = "";
+        private Dictionary<String, String> fileMd5 = null;
         public void Start(String path) {
             bullupPath = path;
+            getFilesMD5(bullupPath);
+
             var mConnectThread = new Thread(this.ConnectToServer);
             mConnectThread.Start();
         }
+        public void getFilesMD5(String path) {
+            fileMd5 = new Dictionary<String, String>();
+            ArrayList files = new ArrayList();
+            GetAllFiles(new DirectoryInfo(path), files);
+            for (int i = 0; i < files.Count; i++) {
+                String totalPath = files[i].ToString();
+                fileMd5.Add(totalPath.Substring(totalPath.LastIndexOf("\\") + 1), GetMD5HashFromFile(files[i].ToString()));
+            } 
+        }
+
+        public void GetAllFiles(DirectoryInfo rootDirectory, ArrayList files) {
+            foreach (FileInfo file in rootDirectory.GetFiles("*")) {
+                files.Add(file.FullName);
+                //Console.WriteLine(file.FullName);
+            }
+            DirectoryInfo[] directories = rootDirectory.GetDirectories();
+            foreach (DirectoryInfo directory in directories) {
+                GetAllFiles(directory, files);
+            }
+        }
+
+        public static string GetMD5HashFromFile(string fileName) {
+            try {
+                FileStream file = new FileStream(fileName, FileMode.Open);
+                System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+                byte[] retVal = md5.ComputeHash(file);
+                file.Close();
+
+                StringBuilder stringBuilder = new StringBuilder();
+                for (int i = 0; i < retVal.Length; i++) {
+                    stringBuilder.Append(retVal[i].ToString("x2"));
+                }
+                return stringBuilder.ToString();
+            } catch (Exception ex) {
+                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+            }
+        }
+
 
         public int maxCount = 0;
         public int currentCount = 0;
@@ -52,8 +94,10 @@ namespace TCPLib {
                     mClientSocket.Connect(this.ipEndPoint);
                     this.isConnected = true;
                 } catch (Exception e) {
+                   
                     //Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
                     this.isConnected = false;
+                    mClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);                   
                 }
                 Thread.Sleep(1000);
                 //Console.WriteLine("正在尝试重新连接...");
@@ -91,18 +135,27 @@ namespace TCPLib {
 
         private void ReceiveFiles() {
             try {
-                byte[] result = new byte[1024];
+                byte[] result = new byte[300];
                 //
                 String path = bullupPath;
                 //传安装路径
-                SendMessage("PATH#" + path + "#");
+RE_FILECOUNT:
+                SendMessage("PATH$" + path + "$");
                 //获取数据长度
-                int receiveLength = this.mClientSocket.Receive(result);
+                int receiveLength = RecieveMessage(ref result);
                 string serverMessage = Encoding.UTF8.GetString(result, 0, receiveLength);
-                if (serverMessage.IndexOf("INSTALLFILECOUNT#") == 0) {
+                if (serverMessage.IndexOf("INSTALLFILECOUNT$") == 0) {
                     //开始传输
                     serverMessage = serverMessage.Substring(17);
-                    int fileCount = Int32.Parse(serverMessage.Substring(0, serverMessage.IndexOf("#")));
+                    int fileCount = 0;
+                    try {
+                        fileCount = Int32.Parse(serverMessage.Substring(0, serverMessage.IndexOf("$")));
+                    } catch (Exception e) {
+                        Console.WriteLine("fileCount接收错误");
+                        SendMessage("RE_FILECOUNT");
+                        goto RE_FILECOUNT;
+                    }
+                    SendMessage("FILECOUNT_OK");
                     int transedCount = 0;
                     maxCount = fileCount;
                     //
@@ -111,21 +164,33 @@ namespace TCPLib {
                         //通知服务器开始传
                         //SendMessage(transedCount.ToString());
                         //接文件头  路径和大小
-                        this.mClientSocket.Receive(result);
+RE_SEND:
+                        RecieveMessage(ref result);
                         String fileSizeStr = null;
                         String filePathStr = null;
+                        String oriFilePathStr = null;
+                        String oriFileSizeStr = null;
                         int fileSize = 0;
                         fileSizeStr = Encoding.UTF8.GetString(result);
-                        fileSizeStr = fileSizeStr.Substring(fileSizeStr.IndexOf("FILESIZE#") + 9);
-                        fileSizeStr = fileSizeStr.Substring(0, fileSizeStr.IndexOf("#"));
-                        fileSize = Int32.Parse(fileSizeStr);
-
+                        oriFileSizeStr = fileSizeStr;
+                        fileSizeStr = fileSizeStr.Substring(fileSizeStr.IndexOf("FILESIZE$") + 9);
+                        try {
+                            fileSize = Int32.Parse(fileSizeStr);
+                        } catch (Exception e) {
+                            Console.WriteLine("fileSize接收错误");
+                            SendMessage("RE_SEND");
+                            goto RE_SEND;
+                        }
+                        
+                        SendMessage("SIZE_OK");
+                        RecieveMessage(ref result);
                         filePathStr = Encoding.UTF8.GetString(result);
-                        filePathStr = filePathStr.Substring(filePathStr.IndexOf("FILEPATH#") + 9);
-                        filePathStr = filePathStr.Substring(0, filePathStr.IndexOf("#"));
-//Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount + " / " + fileCount);
+                        oriFilePathStr = filePathStr;
+                        filePathStr = filePathStr.Substring(filePathStr.IndexOf("FILEPATH$") + 9);
+                        filePathStr = filePathStr.Substring(0, filePathStr.LastIndexOf("$"));
+Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount + " / " + fileCount + " : " + filePathStr);
                         //通知服务器开始传文件数据
-                        SendMessage("DATA_READY");
+                        SendMessage("PATH_OK");
 
                         //准备文件存储区
                         byte[] file = new byte[fileSize];
@@ -141,14 +206,19 @@ namespace TCPLib {
                             receievedSize += tempSize;
                         }
                         //写到本地磁盘
-                        WriteFile(filePathStr, file);
-
+                        try {
+                            WriteFile(filePathStr, file);
+                        } catch (Exception e) {
+                            Console.WriteLine("写文件出错");
+                            SendMessage("RE_SEND");
+                            goto RE_SEND;
+                        }
                         //通知服务器已接完该文件  服务器可以传下个文件
                         SendMessage("DATA_OK");
                         transedCount++;
                     }
                     Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " 传输完成");
-                } else if (serverMessage.IndexOf("UPDATEFILECOUNT#") == 0) {
+                } else if (serverMessage.IndexOf("UPDATEFILECOUNT$") == 0) {
 
                 }
             } catch (Exception e) {
@@ -162,6 +232,10 @@ namespace TCPLib {
             }
         }
 
+        public int RecieveMessage(ref byte[] result) {
+            Array.Clear(result, 0, result.Length);
+            return this.mClientSocket.Receive(result);
+        }
 
         public void WriteFile(String filePathStr, byte[] fileData) {
             FileStream fs = null;
@@ -174,6 +248,8 @@ namespace TCPLib {
                 //Console.WriteLine("file exsist");
                 File.Delete(filePathStr);
                 fs = new FileStream(filePathStr, FileMode.CreateNew, FileAccess.Write);
+            } catch (Exception e) {
+                int a = 0;
             }
             BinaryWriter bw = new BinaryWriter(fs);
             bw.Write(fileData);
