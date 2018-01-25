@@ -6,6 +6,8 @@ using System.Net.Sockets;
 using System.Threading;
 using System.IO;
 using System.Collections;
+using System.Web.Script.Serialization;
+
 
 namespace TCPLib {
     public class TCPClient {
@@ -34,7 +36,8 @@ namespace TCPLib {
         }
 
         private String bullupPath = "";
-        private Dictionary<String, String> fileMd5 = null;
+        private Dictionary<String, String> bullupFileMd5 = null;
+        private Dictionary<String, String> autoscriptFileMd5 = null;
         public void Start(String path) {
             bullupPath = path;
             getFilesMD5(bullupPath);
@@ -43,13 +46,22 @@ namespace TCPLib {
             mConnectThread.Start();
         }
         public void getFilesMD5(String path) {
-            fileMd5 = new Dictionary<String, String>();
+            bullupFileMd5 = new Dictionary<String, String>();
+            autoscriptFileMd5 = new Dictionary<String, String>();
             ArrayList files = new ArrayList();
             GetAllFiles(new DirectoryInfo(path), files);
             for (int i = 0; i < files.Count; i++) {
                 String totalPath = files[i].ToString();
-                fileMd5.Add(totalPath.Substring(totalPath.LastIndexOf("\\") + 1), GetMD5HashFromFile(files[i].ToString()));
-            } 
+                String localPath = totalPath.Substring(totalPath.IndexOf(path) + path.Length);
+                bullupFileMd5.Add(localPath, GetMD5HashFromFile(files[i].ToString()));
+            }
+            files.Clear();
+            GetAllFiles(new DirectoryInfo("C:\\Users\\Public\\Bullup\\auto_program"), files);
+            for (int i = 0; i < files.Count; i++) {
+                String totalPath = files[i].ToString();
+                String localPath = totalPath.Substring(totalPath.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") + "C:\\Users\\Public\\Bullup\\auto_program".Length);
+                autoscriptFileMd5.Add(localPath, GetMD5HashFromFile(files[i].ToString()));
+            }
         }
 
         public void GetAllFiles(DirectoryInfo rootDirectory, ArrayList files) {
@@ -65,7 +77,9 @@ namespace TCPLib {
 
         public static string GetMD5HashFromFile(string fileName) {
             try {
+                File.SetAttributes(fileName, FileAttributes.Normal);
                 FileStream file = new FileStream(fileName, FileMode.Open);
+                
                 System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
                 byte[] retVal = md5.ComputeHash(file);
                 file.Close();
@@ -138,8 +152,23 @@ namespace TCPLib {
                 byte[] result = new byte[300];
                 //
                 String path = bullupPath;
+                JavaScriptSerializer jsonSerialize = new JavaScriptSerializer();
+                
                 //传安装路径
 RE_FILECOUNT:
+                //Bullup文件列表序列化  发送
+                String bullupFileJson = jsonSerialize.Serialize(bullupFileMd5);//将对象转换成json存储
+SendMessage(bullupFileJson);
+                //确认接到
+                RecieveMessage(ref result);
+                if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_OK") == 0) {
+
+                } else { 
+                    
+                }
+                //AutoScript文件列表序列化  发送
+
+                //确认接到
                 SendMessage("PATH$" + path + "$");
                 //获取数据长度
                 int receiveLength = RecieveMessage(ref result);
