@@ -149,6 +149,7 @@ namespace TCPLib {
 
         private void ReceiveFiles() {
             try {
+                
                 byte[] result = new byte[300];
                 //
                 String path = bullupPath;
@@ -163,10 +164,18 @@ SendMessage(bullupFileJson);
                 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_OK") == 0) {
 
-                } else { 
-                    
+                } else {
+                    goto RE_FILECOUNT;
                 }
                 //AutoScript文件列表序列化  发送
+                String autoprogramFileJson = jsonSerialize.Serialize(autoscriptFileMd5);//将对象转换成json存储
+SendMessage(autoprogramFileJson);
+                RecieveMessage(ref result);
+                if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_OK") == 0) {
+
+                } else {
+                    goto RE_FILECOUNT;
+                }
 
                 //确认接到
                 SendMessage("PATH$" + path + "$");
