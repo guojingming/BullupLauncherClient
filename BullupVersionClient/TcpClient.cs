@@ -246,6 +246,22 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                         //写到本地磁盘
                         try {
                             WriteFile(filePathStr, file);
+                            //更新文件md5列表
+                            if (filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") == 0) {
+                                String localPath = filePathStr.Substring(filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") + "C:\\Users\\Public\\Bullup\\auto_program".Length);
+                                if (bullupFileMd5.ContainsKey(localPath)) {
+                                    bullupFileMd5[localPath] = GetMD5HashFromFile(filePathStr);
+                                } else {
+                                    bullupFileMd5.Add(localPath, GetMD5HashFromFile(filePathStr));
+                                }
+                            } else {
+                                String localPath = filePathStr.Substring(filePathStr.IndexOf(bullupPath) + bullupPath.Length);
+                                if (autoscriptFileMd5.ContainsKey(localPath)) {
+                                    autoscriptFileMd5[localPath] = GetMD5HashFromFile(filePathStr);
+                                } else {
+                                    autoscriptFileMd5.Add(localPath, GetMD5HashFromFile(filePathStr));
+                                }
+                            }
                         } catch (Exception e) {
                             Console.WriteLine("写文件出错");
                             SendMessage("RE_SEND");
