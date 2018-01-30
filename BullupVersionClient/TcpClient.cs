@@ -11,7 +11,9 @@ using System.Web.Script.Serialization;
 
 namespace TCPLib {
     public class TCPClient {
+
         
+
         private string ip;
         public string IP {
             get { return ip; }
@@ -25,10 +27,12 @@ namespace TCPLib {
         private IPEndPoint ipEndPoint;
         private Socket mClientSocket;
         private bool isConnected = false;
+        private int id;
 
         public TCPClient(string ip, int port) {
             this.ip = ip;
-            this.port = port;
+            this.id = port;
+            this.port = 6001;
             //初始化IP终端
             this.ipEndPoint = new IPEndPoint(IPAddress.Parse(this.ip), this.port);
             //初始化客户端Socket
@@ -36,10 +40,14 @@ namespace TCPLib {
         }
 
         private String bullupPath = "";
+        private String autoprogramPath = "";
+
         private Dictionary<String, String> bullupFileMd5 = null;
         private Dictionary<String, String> autoscriptFileMd5 = null;
         public void Start(String path) {
+
             bullupPath = path;
+            autoprogramPath = "C:\\Users\\Public\\Bullup\\auto_program";
             getFilesMD5(bullupPath);
 
             var mConnectThread = new Thread(this.ConnectToServer);
@@ -49,14 +57,22 @@ namespace TCPLib {
             bullupFileMd5 = new Dictionary<String, String>();
             autoscriptFileMd5 = new Dictionary<String, String>();
             ArrayList files = new ArrayList();
-            GetAllFiles(new DirectoryInfo(path), files);
+            try {
+                GetAllFiles(new DirectoryInfo(path), files);
+            } catch (Exception e) {
+                //return;
+            }
             for (int i = 0; i < files.Count; i++) {
                 String totalPath = files[i].ToString();
                 String localPath = totalPath.Substring(totalPath.IndexOf(path) + path.Length);
                 bullupFileMd5.Add(localPath, GetMD5HashFromFile(files[i].ToString()));
             }
             files.Clear();
-            GetAllFiles(new DirectoryInfo("C:\\Users\\Public\\Bullup\\auto_program"), files);
+            try {
+                GetAllFiles(new DirectoryInfo("C:\\Users\\Public\\Bullup\\auto_program"), files);
+            } catch (Exception e) { 
+                //
+            }
             for (int i = 0; i < files.Count; i++) {
                 String totalPath = files[i].ToString();
                 String localPath = totalPath.Substring(totalPath.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") + "C:\\Users\\Public\\Bullup\\auto_program".Length);
@@ -90,7 +106,8 @@ namespace TCPLib {
                 }
                 return stringBuilder.ToString();
             } catch (Exception ex) {
-                throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
+                return "";
+                //throw new Exception("GetMD5HashFromFile() fail,error:" + ex.Message);
             }
         }
 
@@ -159,22 +176,41 @@ namespace TCPLib {
 RE_FILECOUNT:
                 //Bullup文件列表序列化  发送
                 String bullupFileJson = jsonSerialize.Serialize(bullupFileMd5);//将对象转换成json存储
+SendMessage(bullupFileJson.Length.ToString());
+RecieveMessage(ref result);
+                if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_LENGTH_OK") == 0) {
+
+                } else {
+                    goto RE_FILECOUNT;
+                }
+
 SendMessage(bullupFileJson);
                 //确认接到
-                RecieveMessage(ref result);
+RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_OK") == 0) {
 
                 } else {
                     goto RE_FILECOUNT;
                 }
+
+RE_AUTOJSON:
                 //AutoScript文件列表序列化  发送
                 String autoprogramFileJson = jsonSerialize.Serialize(autoscriptFileMd5);//将对象转换成json存储
+SendMessage(autoprogramFileJson.Length.ToString());
+RecieveMessage(ref result);
+                if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_LENGTH_OK") == 0) {
+
+                } else {
+                    goto RE_AUTOJSON;
+                }
+                
+                
 SendMessage(autoprogramFileJson);
                 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_OK") == 0) {
 
                 } else {
-                    goto RE_FILECOUNT;
+                    goto RE_AUTOJSON;
                 }
 
                 //确认接到
@@ -232,7 +268,7 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
 
                         //准备文件存储区
                         byte[] file = new byte[fileSize];
-                        int blockSize = 4 * 1024 * 1024;
+                        int blockSize = 200 * 1024;
                         byte[] buffer = new byte[blockSize];
                         //开始传
                         int receievedSize = 0;
@@ -242,6 +278,7 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                                 file[receievedSize + i] = buffer[i];
                             }
                             receievedSize += tempSize;
+                            Console.WriteLine("{0} / {1}", receievedSize, fileSize);
                         }
                         //写到本地磁盘
                         try {
@@ -249,17 +286,17 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                             //更新文件md5列表
                             if (filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") == 0) {
                                 String localPath = filePathStr.Substring(filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") + "C:\\Users\\Public\\Bullup\\auto_program".Length);
-                                if (bullupFileMd5.ContainsKey(localPath)) {
-                                    bullupFileMd5[localPath] = GetMD5HashFromFile(filePathStr);
-                                } else {
-                                    bullupFileMd5.Add(localPath, GetMD5HashFromFile(filePathStr));
-                                }
-                            } else {
-                                String localPath = filePathStr.Substring(filePathStr.IndexOf(bullupPath) + bullupPath.Length);
                                 if (autoscriptFileMd5.ContainsKey(localPath)) {
                                     autoscriptFileMd5[localPath] = GetMD5HashFromFile(filePathStr);
                                 } else {
                                     autoscriptFileMd5.Add(localPath, GetMD5HashFromFile(filePathStr));
+                                } 
+                            } else {
+                                String localPath = filePathStr.Substring(filePathStr.IndexOf(bullupPath) + bullupPath.Length);
+                                if (bullupFileMd5.ContainsKey(localPath)) {
+                                    bullupFileMd5[localPath] = GetMD5HashFromFile(filePathStr);
+                                } else {
+                                    bullupFileMd5.Add(localPath, GetMD5HashFromFile(filePathStr));
                                 }
                             }
                         } catch (Exception e) {
@@ -272,6 +309,7 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                         transedCount++;
                     }
                     Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " 传输完成");
+                    CreateShortcuts(bullupPath + "\\Bullup.exe", "C:\\Users\\" + Environment.UserName + "\\Desktop", "斗牛电竞");
                 } else if (serverMessage.IndexOf("UPDATEFILECOUNT$") == 0) {
 
                 }
@@ -292,6 +330,12 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
         }
 
         public void WriteFile(String filePathStr, byte[] fileData) {
+
+            //if (filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") == 0) {
+            //    filePathStr = filePathStr.Substring(filePathStr.IndexOf("C:\\Users\\Public\\Bullup\\auto_program") + "C:\\Users\\Public\\Bullup\\auto_program".Length);
+            //    filePathStr = "C:\\Users\\Public\\Bullup\\auto_program" + filePathStr;
+            //}
+
             FileStream fs = null;
             try {
                 fs = new FileStream(filePathStr, FileMode.CreateNew, FileAccess.Write);
@@ -322,5 +366,22 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
             }
             mClientSocket.Send(Encoding.UTF8.GetBytes(msg));
         }
+
+        protected void CreateShortcuts(String targetPath, String savePath, String saveName) {
+            IWshRuntimeLibrary.IWshShell shell_class = new IWshRuntimeLibrary.IWshShell_Class();
+            IWshRuntimeLibrary.IWshShortcut shortcut = null;
+            //if (!Directory.Exists(targetPath))
+            //    return;
+            if (!Directory.Exists(savePath))
+                Directory.CreateDirectory(savePath);
+            try {
+                shortcut = shell_class.CreateShortcut(savePath + @"/" + saveName + ".lnk") as IWshRuntimeLibrary.IWshShortcut;
+                shortcut.TargetPath = targetPath;
+                shortcut.Save();
+                //MessageBox.Show("创建快捷方式成功！");
+            } catch (Exception ex) {
+                //MessageBox.Show("创建快捷方式失败！");
+            }
+        } 
     }
 }
