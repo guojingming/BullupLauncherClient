@@ -80,15 +80,14 @@ namespace BullupVersionClient {
                 try {
                     progressBar1.Maximum = client.maxCount;
                     progressBar1.Value = client.currentCount;
-                    label1.Text = (client.currentCount+1).ToString();
+                    label1.Text = (progressBar1.Value).ToString();
                     label3.Text = client.maxCount.ToString();
-                    if (client.maxCount == (client.currentCount + 1) && client.currentCount != 0) {
+                    if (client.maxCount == progressBar1.Value && client.currentCount != 0) {
                         MessageBox.Show("安装/更新完成");
-
+                        this.Close();
                         //创建桌面快捷方式
                         //Environment.UserName
-                        CreateShortcuts(bullupPath + "\\Bullup.exe", "C:\\Users\\" + Environment.UserName + "\\Desktop", "斗牛电竞");
-
+                        //CreateShortcuts(bullupPath + "\\Bullup.exe", "C:\\Users\\" + Environment.UserName + "\\Desktop", "斗牛电竞");
                         break;
                     }
                 } catch (Exception e) {
@@ -145,14 +144,13 @@ namespace BullupVersionClient {
                 }
             } else {
                 if (label4.Text == "下载") {
-                    //client = new TCPClient("52.15.124.26", 6001);
-                    //client = new TCPClient("127.0.0.1", 6001);
-                    client = new TCPClient("192.168.0.117", 6001);
+
+                    client = new TCPClient("13.58.18.43", 0);
                     
                     //执行Start方法
                     client.Start(bullupPath);
                     pictureBox1.Enabled = false;
-                   
+
                     Thread th = new Thread(ThreadChild);
                     th.Start();
                 }
@@ -183,6 +181,10 @@ namespace BullupVersionClient {
             } else if (label4.Text == "下载") {
                 pictureBox1.BackgroundImage = Properties.Resources._1;
             }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e) {
+
         }
     }
 }

@@ -29,7 +29,7 @@ namespace TCPLib {
         private bool isConnected = false;
         private int id;
 
-        public TCPClient(string ip, int port) {
+        public TCPClient(string ip, int id ) {
             this.ip = ip;
             this.id = port;
             this.port = 6001;
@@ -234,7 +234,7 @@ SendMessage(autoprogramFileJson);
                     maxCount = fileCount;
                     //
                     while (transedCount != fileCount) {
-                        currentCount = transedCount;
+                        
                         //通知服务器开始传
                         //SendMessage(transedCount.ToString());
                         //接文件头  路径和大小
@@ -306,8 +306,10 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                         }
                         //通知服务器已接完该文件  服务器可以传下个文件
                         SendMessage("DATA_OK");
+                        currentCount = transedCount;
                         transedCount++;
                     }
+                    currentCount++;
                     Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " 传输完成");
                     CreateShortcuts(bullupPath + "\\Bullup.exe", "C:\\Users\\" + Environment.UserName + "\\Desktop", "斗牛电竞");
                 } else if (serverMessage.IndexOf("UPDATEFILECOUNT$") == 0) {
