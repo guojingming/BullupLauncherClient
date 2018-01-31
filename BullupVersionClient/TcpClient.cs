@@ -114,6 +114,7 @@ namespace TCPLib {
 
         public int maxCount = 0;
         public int currentCount = 0;
+        public int oriCount = -1;
 
         public int getMaxCount() {
             return maxCount;
@@ -232,6 +233,7 @@ SendMessage(autoprogramFileJson);
                     SendMessage("FILECOUNT_OK");
                     int transedCount = 0;
                     maxCount = fileCount;
+                    oriCount = fileCount;
                     //
                     while (transedCount != fileCount) {
                         

@@ -78,6 +78,11 @@ namespace BullupVersionClient {
         private void ThreadChild() {
             while(true){
                 try {
+                    if(client.oriCount == 0){
+                        MessageBox.Show("安装/更新完成");
+                        this.Close();
+                        break;
+                    }
                     progressBar1.Maximum = client.maxCount;
                     progressBar1.Value = client.currentCount;
                     label1.Text = (progressBar1.Value).ToString();
