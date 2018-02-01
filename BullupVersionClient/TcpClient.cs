@@ -125,9 +125,10 @@ namespace TCPLib {
                 try {
                     mClientSocket.Connect(this.ipEndPoint);
                     this.isConnected = true;
+                    Console.WriteLine("连接成功");
                 } catch (Exception e) {
                    
-                    //Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
+                    Console.WriteLine(string.Format("因为一个错误的发生，暂时无法连接到服务器，错误信息为:{0}", e.Message));
                     this.isConnected = false;
                     mClientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);                   
                 }
