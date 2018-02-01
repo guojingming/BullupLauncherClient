@@ -7,8 +7,6 @@ F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\Bullu
 F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csproj.GenerateResource.Cache
 F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.exe
 F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.pdb
-F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\SyncClient.exe
-F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\bin\Debug\SyncClient.pdb
 F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
 F:\Win32CSharpWorkSpace\BullupLauncherClient\BullupVersionClient\obj\Debug\BullupVersionClient.csproj.ResolveComReference.cache
 E:\Win32CSharpWorkSpace\SyncClient\BullupLauncherClient\BullupVersionClient\bin\Debug\BullupVersionClient.exe.config
