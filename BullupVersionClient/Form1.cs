@@ -125,6 +125,17 @@ namespace BullupVersionClient {
         }
 
         private void button2_Click(object sender, EventArgs e) {
+            try {
+                uiThread.Abort();
+            } catch (Exception ex) { 
+            
+            }
+            try {
+                client.ShutDown();
+            } catch (Exception ex) { 
+            
+            }
+            
             this.Close();
         }
 
@@ -137,6 +148,8 @@ namespace BullupVersionClient {
             label4.SetBounds(1000,1000,70,20);
             pictureBox1.BackgroundImage = Properties.Resources._2;
         }
+
+        private Thread uiThread;
 
         private void pictureBox1_Click(object sender, EventArgs e) {
             if (bullupPath == "") {
@@ -158,8 +171,9 @@ namespace BullupVersionClient {
                     client.Start(bullupPath);
                     pictureBox1.Enabled = false;
 
-                    Thread th = new Thread(ThreadChild);
-                    th.Start();
+                    uiThread = new Thread(ThreadChild);
+                    uiThread.Start();
+                    button1.Enabled = true;
                 }
             }
         }
@@ -191,7 +205,19 @@ namespace BullupVersionClient {
         }
 
         private void button1_Click_1(object sender, EventArgs e) {
+            client.ShutDown();
+            client = new TCPClient("13.58.18.43", 0);
 
+            //执行Start方法
+            client.Start(bullupPath);
+            try {
+                uiThread.Abort();
+            } catch (Exception ex) { 
+            
+            }
+            
+            uiThread = new Thread(ThreadChild);
+            uiThread.Start();
         }
     }
 }

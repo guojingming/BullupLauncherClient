@@ -42,16 +42,27 @@ namespace TCPLib {
 
         private String bullupPath = "";
         private String autoprogramPath = "";
-
+        private Thread mConnectThread;
+        private Thread mReceiveThread;
         private Dictionary<String, String> bullupFileMd5 = null;
         private Dictionary<String, String> autoscriptFileMd5 = null;
+
+        public void ShutDown() {
+            try {
+                mConnectThread.Abort();
+                mReceiveThread.Abort();
+            } catch (Exception e) { 
+                
+            }
+        }
+
         public void Start(String path) {
 
             bullupPath = path;
             autoprogramPath = "C:\\Users\\Public\\Bullup\\auto_program";
             getFilesMD5(bullupPath);
 
-            var mConnectThread = new Thread(this.ConnectToServer);
+            mConnectThread = new Thread(this.ConnectToServer);
             mConnectThread.Start();
         }
         public void getFilesMD5(String path) {
@@ -138,7 +149,7 @@ namespace TCPLib {
             }
             //Console.WriteLine("连接服务器成功，现在可以和服务器进行会话了");
             //var mReceiveThread = new Thread(this.ReceiveMessage);
-            var mReceiveThread = new Thread(this.ReceiveFiles);
+            mReceiveThread = new Thread(this.ReceiveFiles);
             mReceiveThread.Start();
         }
 

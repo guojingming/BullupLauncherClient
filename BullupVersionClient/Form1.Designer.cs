@@ -38,20 +38,18 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(46, 150);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.textBox1.Location = new System.Drawing.Point(25, 86);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(704, 31);
+            this.textBox1.Size = new System.Drawing.Size(386, 21);
             this.textBox1.TabIndex = 0;
             this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // progressBar1
             // 
-            this.progressBar1.Location = new System.Drawing.Point(46, 284);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.progressBar1.Location = new System.Drawing.Point(25, 162);
             this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(708, 40);
+            this.progressBar1.Size = new System.Drawing.Size(386, 23);
             this.progressBar1.TabIndex = 2;
             this.progressBar1.Click += new System.EventHandler(this.progressBar1_Click);
             // 
@@ -59,10 +57,9 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("宋体", 13F);
-            this.label1.Location = new System.Drawing.Point(834, 293);
-            this.label1.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label1.Location = new System.Drawing.Point(455, 167);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 31);
+            this.label1.Size = new System.Drawing.Size(17, 18);
             this.label1.TabIndex = 3;
             this.label1.Text = "0";
             this.label1.Click += new System.EventHandler(this.label1_Click);
@@ -71,10 +68,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("宋体", 13F);
-            this.label2.Location = new System.Drawing.Point(908, 293);
-            this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label2.Location = new System.Drawing.Point(495, 167);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(30, 31);
+            this.label2.Size = new System.Drawing.Size(17, 18);
             this.label2.TabIndex = 4;
             this.label2.Text = "/";
             this.label2.Click += new System.EventHandler(this.label2_Click);
@@ -83,10 +79,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("宋体", 13F);
-            this.label3.Location = new System.Drawing.Point(970, 293);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label3.Location = new System.Drawing.Point(529, 167);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 31);
+            this.label3.Size = new System.Drawing.Size(17, 18);
             this.label3.TabIndex = 5;
             this.label3.Text = "0";
             this.label3.Click += new System.EventHandler(this.label3_Click);
@@ -94,10 +89,9 @@
             // button2
             // 
             this.button2.Font = new System.Drawing.Font("宋体", 11F);
-            this.button2.Location = new System.Drawing.Point(1052, 5);
-            this.button2.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.button2.Location = new System.Drawing.Point(574, 3);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(42, 42);
+            this.button2.Size = new System.Drawing.Size(23, 24);
             this.button2.TabIndex = 6;
             this.button2.Text = "×";
             this.button2.UseVisualStyleBackColor = true;
@@ -106,10 +100,9 @@
             // button3
             // 
             this.button3.Font = new System.Drawing.Font("宋体", 11F);
-            this.button3.Location = new System.Drawing.Point(1005, 5);
-            this.button3.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
+            this.button3.Location = new System.Drawing.Point(548, 3);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(42, 42);
+            this.button3.Size = new System.Drawing.Size(23, 24);
             this.button3.TabIndex = 7;
             this.button3.Text = "-";
             this.button3.UseVisualStyleBackColor = true;
@@ -118,9 +111,10 @@
             // pictureBox1
             // 
             this.pictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.pictureBox1.Location = new System.Drawing.Point(806, 105);
+            this.pictureBox1.Location = new System.Drawing.Point(440, 60);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(225, 116);
+            this.pictureBox1.Size = new System.Drawing.Size(123, 66);
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
@@ -131,17 +125,20 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(889, 459);
+            this.label4.Location = new System.Drawing.Point(485, 262);
+            this.label4.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(52, 21);
+            this.label4.Size = new System.Drawing.Size(29, 12);
             this.label4.TabIndex = 9;
             this.label4.Text = "选择";
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(46, 426);
+            this.button1.Enabled = false;
+            this.button1.Location = new System.Drawing.Point(25, 243);
+            this.button1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(288, 54);
+            this.button1.Size = new System.Drawing.Size(157, 31);
             this.button1.TabIndex = 10;
             this.button1.Text = "卡死恢复";
             this.button1.UseVisualStyleBackColor = true;
@@ -149,9 +146,9 @@
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 21F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1100, 576);
+            this.ClientSize = new System.Drawing.Size(600, 329);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox1);
@@ -163,7 +160,6 @@
             this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.textBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(6, 5, 6, 5);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
