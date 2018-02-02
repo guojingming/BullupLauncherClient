@@ -200,15 +200,8 @@ RE_FILECOUNT:
                 Console.WriteLine("准备Bullup文件列表");
                 //Bullup文件列表序列化  发送
                 String bullupFileJson = jsonSerialize.Serialize(bullupFileMd5);//将对象转换成json存储
-SendMessage(bullupFileJson.Length.ToString());
-RecieveMessage(ref result);
-                if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_LENGTH_OK") == 0) {
-
-                } else {
-                    goto RE_FILECOUNT;
-                }
                 Console.WriteLine("发送Bullup文件列表");
-SendMessage(bullupFileJson);
+SendMessage("BULLUPFILEJSON$" + bullupFileJson + "$");
                 //确认接到
 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("BULLUP_FILE_OK") == 0) {
@@ -221,17 +214,8 @@ RE_AUTOJSON:
                 Console.WriteLine("准备auto_program文件列表");
                 //AutoScript文件列表序列化  发送
                 String autoprogramFileJson = jsonSerialize.Serialize(autoscriptFileMd5);//将对象转换成json存储
-              
-SendMessage(autoprogramFileJson.Length.ToString());
-RecieveMessage(ref result);
-                if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_LENGTH_OK") == 0) {
-
-                } else {
-                    goto RE_AUTOJSON;
-                }
-
                 Console.WriteLine("发送auto_program文件列表");
-SendMessage(autoprogramFileJson);
+SendMessage("AUTOFILEJSON$" + autoprogramFileJson + "$");
                 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_OK") == 0) {
 

@@ -15,6 +15,7 @@ namespace TestMultipleClient {
                 bullupPath[i] = "C:\\test" + i;
             }
             for (int i = 0; i < length; i++) {
+                //TCPClient client = new TCPClient("127.0.0.1", i);
                 TCPClient client = new TCPClient("13.58.18.43", i);
                 //TCPClient client = new TCPClient("192.168.0.117", i);
                 client.Start(bullupPath[i]);
