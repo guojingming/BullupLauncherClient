@@ -7,6 +7,7 @@ using System.Threading;
 using System.IO;
 using System.Collections;
 using System.Web.Script.Serialization;
+using System.Diagnostics;
 
 
 namespace TCPLib {
@@ -167,6 +168,26 @@ namespace TCPLib {
         //}
 
         private void ReceiveFiles() {
+            //杀进程
+            //杀Bullup进程
+            Process[] p1 = Process.GetProcessesByName("Bullup");
+            for (int i = 0; i < p1.Length; i++) {
+                try {
+                    p1[i].Kill();
+                } catch (Exception e) {
+
+                }
+            }
+            Process[] p2 = Process.GetProcessesByName("BullupServiceNew");
+            for (int i = 0; i < p2.Length; i++) {
+                try {
+                    p2[i].Kill();
+                } catch (Exception e) {
+
+                }
+            }   
+
+
             try {
                 
                 byte[] result = new byte[300];

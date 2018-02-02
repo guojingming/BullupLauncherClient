@@ -150,15 +150,7 @@ namespace BullupVersionClient {
                 }
             } else {
                 if (label4.Text == "下载") {
-                    //杀Bullup进程
-                    Process[] p = Process.GetProcessesByName("Bullup");
-                    for (int i = 0; i < p.Length; i++) {
-                        try { 
-                            p[i].Kill();   
-                        }catch(Exception ke){
-                        
-                        }
-                    }                   
+                      
 
                     client = new TCPClient("13.58.18.43", 0);
                     
