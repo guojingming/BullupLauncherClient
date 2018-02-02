@@ -189,7 +189,7 @@ namespace TCPLib {
 
 
             try {
-                
+                Console.WriteLine("准备接收文件");
                 byte[] result = new byte[300];
                 //
                 String path = bullupPath;
@@ -197,6 +197,7 @@ namespace TCPLib {
                 
                 //传安装路径
 RE_FILECOUNT:
+                Console.WriteLine("准备Bullup文件列表");
                 //Bullup文件列表序列化  发送
                 String bullupFileJson = jsonSerialize.Serialize(bullupFileMd5);//将对象转换成json存储
 SendMessage(bullupFileJson.Length.ToString());
@@ -206,7 +207,7 @@ RecieveMessage(ref result);
                 } else {
                     goto RE_FILECOUNT;
                 }
-
+                Console.WriteLine("发送Bullup文件列表");
 SendMessage(bullupFileJson);
                 //确认接到
 RecieveMessage(ref result);
@@ -217,8 +218,10 @@ RecieveMessage(ref result);
                 }
 
 RE_AUTOJSON:
+                Console.WriteLine("准备auto_program文件列表");
                 //AutoScript文件列表序列化  发送
                 String autoprogramFileJson = jsonSerialize.Serialize(autoscriptFileMd5);//将对象转换成json存储
+              
 SendMessage(autoprogramFileJson.Length.ToString());
 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_LENGTH_OK") == 0) {
@@ -226,8 +229,8 @@ RecieveMessage(ref result);
                 } else {
                     goto RE_AUTOJSON;
                 }
-                
-                
+
+                Console.WriteLine("发送auto_program文件列表");
 SendMessage(autoprogramFileJson);
                 RecieveMessage(ref result);
                 if (Encoding.UTF8.GetString(result).IndexOf("AUTOSCRIPT_FILE_OK") == 0) {
@@ -236,11 +239,13 @@ SendMessage(autoprogramFileJson);
                     goto RE_AUTOJSON;
                 }
 
+                Console.WriteLine("发送安装路径");
                 //确认接到
                 SendMessage("PATH$" + path + "$");
                 //获取数据长度
                 int receiveLength = RecieveMessage(ref result);
                 string serverMessage = Encoding.UTF8.GetString(result, 0, receiveLength);
+                Console.WriteLine("开始传输文件");
                 if (serverMessage.IndexOf("INSTALLFILECOUNT$") == 0) {
                     //开始传输
                     serverMessage = serverMessage.Substring(17);
