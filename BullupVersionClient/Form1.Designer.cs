@@ -174,7 +174,7 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("宋体", 13F);
             this.label6.ForeColor = System.Drawing.Color.White;
-            this.label6.Location = new System.Drawing.Point(493, 338);
+            this.label6.Location = new System.Drawing.Point(495, 338);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(17, 18);
             this.label6.TabIndex = 13;
@@ -186,7 +186,7 @@
             this.label7.BackColor = System.Drawing.Color.Transparent;
             this.label7.Font = new System.Drawing.Font("宋体", 13F);
             this.label7.ForeColor = System.Drawing.Color.White;
-            this.label7.Location = new System.Drawing.Point(471, 338);
+            this.label7.Location = new System.Drawing.Point(465, 338);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(17, 18);
             this.label7.TabIndex = 12;

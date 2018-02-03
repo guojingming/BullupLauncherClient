@@ -103,6 +103,7 @@ namespace BullupVersionClient {
                         }
                         label7.Text = value.ToString();
                     } else {
+                        progressBar2.Value = 0;
                         label7.Text = "0";
                     }
 
