@@ -97,7 +97,7 @@ namespace BullupVersionClient {
                     }
 
                     if (progressBar2.Maximum != 0) {
-                        int value = progressBar2.Value * 100 / progressBar2.Maximum;
+                        int value = (int)(progressBar2.Value * 1.0 / progressBar2.Maximum * 100);
                         if (value > 100) {
                             value = 100;
                         }
