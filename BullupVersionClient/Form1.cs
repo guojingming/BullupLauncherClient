@@ -88,6 +88,26 @@ namespace BullupVersionClient {
                     progressBar1.Value = client.currentCount;
                     label1.Text = (progressBar1.Value).ToString();
                     label3.Text = client.maxCount.ToString();
+
+                    progressBar2.Maximum = client.fileMaxSize;
+                    if(client.fileCurrentSize < client.fileMaxSize){
+                        progressBar2.Value = client.fileCurrentSize;
+                    } else {
+                        progressBar2.Value = client.fileMaxSize;
+                    }
+
+                    if (progressBar2.Maximum != 0) {
+                        int value = progressBar2.Value * 100 / progressBar2.Maximum;
+                        if (value > 100) {
+                            value = 100;
+                        }
+                        label7.Text = value.ToString();
+                    } else {
+                        label7.Text = "0";
+                    }
+
+                    label12.Text = client.fileCurrentName;
+
                     if (client.maxCount == progressBar1.Value && client.currentCount != 0) {
                         MessageBox.Show("安装/更新完成");
                         this.Close();
@@ -136,7 +156,9 @@ namespace BullupVersionClient {
             
             }
             
+            
             this.Close();
+            System.Environment.Exit(0);
         }
 
         private void button3_Click(object sender, EventArgs e) {

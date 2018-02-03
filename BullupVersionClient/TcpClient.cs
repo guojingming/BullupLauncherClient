@@ -128,6 +128,11 @@ namespace TCPLib {
         public int currentCount = 0;
         public int oriCount = -1;
 
+        public int fileMaxSize = 0;
+        public int fileCurrentSize = 0;
+
+        public String fileCurrentName = "";
+
         public int getMaxCount() {
             return maxCount;
         }
@@ -274,6 +279,7 @@ RE_SEND:
                         fileSizeStr = fileSizeStr.Substring(fileSizeStr.IndexOf("FILESIZE$") + 9);
                         try {
                             fileSize = Int32.Parse(fileSizeStr);
+                            fileMaxSize = fileSize;
                         } catch (Exception e) {
                             Console.WriteLine("fileSize接收错误");
                             SendMessage("RE_SEND");
@@ -286,6 +292,9 @@ RE_SEND:
                         oriFilePathStr = filePathStr;
                         filePathStr = filePathStr.Substring(filePathStr.IndexOf("FILEPATH$") + 9);
                         filePathStr = filePathStr.Substring(0, filePathStr.LastIndexOf("$"));
+
+                        fileCurrentName = filePathStr.Substring(filePathStr.LastIndexOf("\\") + 1);
+
 Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount + " / " + fileCount + " : " + filePathStr);
                         //通知服务器开始传文件数据
                         SendMessage("PATH_OK");
@@ -302,6 +311,7 @@ Console.WriteLine(mClientSocket.LocalEndPoint.ToString() + " : " + transedCount 
                                 file[receievedSize + i] = buffer[i];
                             }
                             receievedSize += tempSize;
+                            fileCurrentSize = receievedSize;
                             Console.WriteLine("{0} / {1}", receievedSize, fileSize);
                         }
                         //写到本地磁盘
