@@ -186,9 +186,9 @@ namespace BullupVersionClient {
                 }
             } else {
                 if (label4.Text == "下载") {
-                      
 
-                    client = new TCPClient("13.58.18.43", 0);
+
+                    client = new TCPClient("13.58.136.151", 0);
                     
                     //执行Start方法
                     client.Start(bullupPath);
