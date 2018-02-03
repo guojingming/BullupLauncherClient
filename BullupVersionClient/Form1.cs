@@ -17,6 +17,7 @@ namespace BullupVersionClient {
     public partial class Form1 : Form {
         public Form1() {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
 
         const int WM_NCLBUTTONDOWN = 0xA1;
